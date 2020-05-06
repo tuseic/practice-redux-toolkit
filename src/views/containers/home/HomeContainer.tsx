@@ -24,8 +24,13 @@ const HomeContainer: React.FC = () => {
       dispatch(actions.tasks.setTask({id, task}))
     }, [dispatch]
   )
+  const handleDeleteTask = useCallback(
+    (id: number) => {
+      dispatch(actions.tasks.deleteTask({id}))
+    }, [dispatch]
+  )
 
-  const props = { tasks, handleAddTask, handleSetTask }
+  const props = { tasks, handleAddTask, handleSetTask, handleDeleteTask }
 
   return (
     <Home { ...props }/>

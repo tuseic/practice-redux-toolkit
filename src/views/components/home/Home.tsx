@@ -13,6 +13,7 @@ type OwnProps = {
 type Handler = {
   handleAddTask: () => void
   handleSetTask: (id: number, task: Types['task']) => void
+  handleDeleteTask: (id: number) => void
 }
 
 type Props = OwnProps & Handler
@@ -39,11 +40,17 @@ export const Home: React.FC<Props> = (props) => {
     })
   }
 
+  const deleteTask = (id: number) => () => {
+    props.handleDeleteTask(id)
+  }
+
   return (
     <div>
       {
         props.tasks.map((task, index) => (
           <div key={task.id}>
+            <button onClick={deleteTask(index)}> X </button>
+            <span> | </span>
             <input
               type='text'
               value={task.title}

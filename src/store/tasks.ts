@@ -54,7 +54,7 @@ export const tasks = createSlice({
         ]
       }
     },
-    deleteTask: (state: State, action: PayloadAction<Task>) => {
+    deleteTask: (state: State, action: PayloadAction<{id: number}>) => {
       return {
         ...state,
         tasks: [
