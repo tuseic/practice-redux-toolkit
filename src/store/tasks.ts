@@ -12,14 +12,14 @@ type State = {
 }
 
 const initialState: State = {
-  count: 2,
+  count: 0,
   tasks: [
     {
-      id: 1,
+      id: 0,
       title: 'first todo',
       done: true
     }, {
-      id: 2,
+      id: 1,
       title: 'next todo',
       done: false
     }
@@ -30,7 +30,7 @@ export const tasks = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    addTask: (state: State, action: PayloadAction<string>) => {
+    addTask: (state: State) => {
       return {
         ...state,
         count: state.count + 1,
@@ -38,21 +38,18 @@ export const tasks = createSlice({
           ...state.tasks,
           {
             id: state.count,
-            title: action.payload,
+            title: '',
             done: false
           }
         ]
       }
     },
-    doneTask: (state: State, action: PayloadAction<Task>) => {
+    setTask: (state: State, action: PayloadAction<{id: number, task: Task}>) => {
       return {
         ...state,
         tasks: [
           ...state.tasks.slice(0, action.payload.id),
-          {
-            ...action.payload,
-            done: !action.payload.done
-          },
+          action.payload.task,
           ...state.tasks.slice(action.payload.id + 1)
         ]
       }
