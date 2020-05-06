@@ -11,6 +11,7 @@ type OwnProps = {
 }
 
 type Handler = {
+  handleAddTask: () => void
   handleSetTask: (id: number, task: Types['task']) => void
 }
 
@@ -18,11 +19,23 @@ type Props = OwnProps & Handler
 
 export const Home: React.FC<Props> = (props) => {
 
-  const setTaskFunc = (id: number, task: Types['task']) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const addTaskFunc = () => {
+    props.handleAddTask()
+  }
+  
+  const setTaskTitleFunc = (id: number, task: Types['task']) => (e: React.ChangeEvent<HTMLInputElement>) => {
     props.handleSetTask(id, {
       id: task.id,
       title: e.target.value,
       done: task.done
+    })
+  }
+
+  const setTaskDoneFunc = (id: number, task: Types['task']) => () => {
+    props.handleSetTask(id, {
+      id: task.id,
+      title: task.title,
+      done: !task.done
     })
   }
 
@@ -34,16 +47,18 @@ export const Home: React.FC<Props> = (props) => {
             <input
               type='text'
               value={task.title}
-              onChange={setTaskFunc(index, task)}
+              onChange={setTaskTitleFunc(index, task)}
             />
             <input
               type='checkbox'
               checked={task.done}
+              onClick={setTaskDoneFunc(index, task)}
               readOnly
             />
           </div>
         ))
       }
+      <button onClick={addTaskFunc}>Add Task</button>
     </div>
   )
 }

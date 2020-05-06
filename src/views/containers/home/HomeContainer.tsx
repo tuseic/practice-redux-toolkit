@@ -14,13 +14,18 @@ const HomeContainer: React.FC = () => {
   )
 
   const dispatch = useDispatch()
+  const handleAddTask = useCallback(
+    () => {
+      dispatch(actions.tasks.addTask())
+    }, [dispatch]
+  )
   const handleSetTask = useCallback(
     (id: number, task: Types['task']) => {
       dispatch(actions.tasks.setTask({id, task}))
     }, [dispatch]
   )
 
-  const props = { tasks, handleSetTask }
+  const props = { tasks, handleAddTask, handleSetTask }
 
   return (
     <Home { ...props }/>
