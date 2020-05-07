@@ -18,7 +18,7 @@ type Handler = {
 
 type Props = OwnProps & Handler
 
-export const Home: React.FC<Props> = (props) => {
+export const Tasks: React.FC<Props> = (props) => {
 
   const addTaskFunc = () => {
     props.handleAddTask()

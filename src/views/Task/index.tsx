@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState, actions } from 'store'
-import { Home } from 'views/home/Home'
+import { Tasks } from 'views/Task/Tasks'
 
 type Types = {
   tasks: RootState['tasks']['tasks']
   task: RootState['tasks']['tasks'][0]
 }
 
-const HomeContainer: React.FC = () => {
+const Task: React.FC = () => {
   const tasks = useSelector<RootState, Types['tasks']>(
     state => state.tasks.tasks
   )
@@ -33,8 +33,8 @@ const HomeContainer: React.FC = () => {
   const props = { tasks, handleAddTask, handleSetTask, handleDeleteTask }
 
   return (
-    <Home { ...props }/>
+    <Tasks { ...props }/>
   )
 }
 
-export default HomeContainer
+export default Task
