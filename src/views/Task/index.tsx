@@ -1,17 +1,22 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState, actions } from 'store'
-import { Tasks } from 'views/Task/Tasks'
 
 type Types = {
   tasks: RootState['tasks']['tasks']
   task: RootState['tasks']['tasks'][0]
+  taskWithIndex: {
+    index: number
+    task: Types['task']
+  }
+  index: number
 }
 
 const Task: React.FC = () => {
   const tasks = useSelector<RootState, Types['tasks']>(
     state => state.tasks.tasks
   )
+
 
   const dispatch = useDispatch()
   const handleAddTask = useCallback(
@@ -20,20 +25,69 @@ const Task: React.FC = () => {
     }, [dispatch]
   )
   const handleSetTask = useCallback(
-    (id: number, task: Types['task']) => {
-      dispatch(actions.tasks.setTask({id, task}))
+    (taskWithIndex: Types['taskWithIndex']) => {
+      dispatch(actions.tasks.setTask(taskWithIndex))
     }, [dispatch]
   )
   const handleDeleteTask = useCallback(
-    (id: number) => {
-      dispatch(actions.tasks.deleteTask({id}))
+    (index: Types['index']) => {
+      dispatch(actions.tasks.deleteTask({index}))
     }, [dispatch]
   )
 
-  const props = { tasks, handleAddTask, handleSetTask, handleDeleteTask }
 
+  const addTaskFunc = () => {
+    handleAddTask()
+  }
+
+  const setTaskTitleFunc = (taskWithIndex: Types['taskWithIndex']) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleSetTask({
+      index: taskWithIndex.index,
+      task: {
+        ...taskWithIndex.task,
+        title: e.target.value
+      }
+    })
+  }
+
+  const setTaskDoneFunc = (taskWithIndex: Types['taskWithIndex']) => () => {
+    handleSetTask({
+      index: taskWithIndex.index,
+      task: {
+        ...taskWithIndex.task,
+        done: !taskWithIndex.task.done
+      }
+    })
+  }
+
+  const deleteTaskFunc = (index: Types['index']) => () => {
+    handleDeleteTask(index)
+  }
+
+  
   return (
-    <Tasks { ...props }/>
+    <div>
+      {
+        tasks.map((task, index) => (
+          <div key={task.id}>
+            <button onClick={deleteTaskFunc(index)}> X </button>
+            <span> | </span>
+            <input
+              type='text'
+              value={task.title}
+              onChange={setTaskTitleFunc({index, task})}
+            />
+            <input
+              type='checkbox'
+              checked={task.done}
+              onClick={setTaskDoneFunc({index, task})}
+              readOnly
+            />
+          </div>
+        ))
+      }
+      <button onClick={addTaskFunc}>Add Task</button>
+    </div>
   )
 }
 
