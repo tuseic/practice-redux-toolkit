@@ -44,22 +44,22 @@ export const tasks = createSlice({
         ]
       }
     },
-    setTask: (state: State, action: PayloadAction<{id: number, task: Task}>) => {
+    setTask: (state: State, action: PayloadAction<{index: number, task: Task}>) => {
       return {
         ...state,
         tasks: [
-          ...state.tasks.slice(0, action.payload.id),
+          ...state.tasks.slice(0, action.payload.index),
           action.payload.task,
-          ...state.tasks.slice(action.payload.id + 1)
+          ...state.tasks.slice(action.payload.index + 1)
         ]
       }
     },
-    deleteTask: (state: State, action: PayloadAction<{id: number}>) => {
+    deleteTask: (state: State, action: PayloadAction<{index: number}>) => {
       return {
         ...state,
         tasks: [
-          ...state.tasks.slice(0, action.payload.id),
-          ...state.tasks.slice(action.payload.id + 1)
+          ...state.tasks.slice(0, action.payload.index),
+          ...state.tasks.slice(action.payload.index + 1)
         ]
       }
     }
