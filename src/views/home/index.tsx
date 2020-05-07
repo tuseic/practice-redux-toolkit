@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState, actions } from 'store'
-import { Home } from 'views/components/home/Home'
+import { Home } from 'views/home/Home'
 
 type Types = {
   tasks: RootState['tasks']['tasks']
